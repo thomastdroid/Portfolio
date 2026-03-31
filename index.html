@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Xizhi Tang | ECE @ Georgia Tech</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gt-gold: #b3a369;
+      --gt-gold-light: #d4c483;
+      --gt-gold-dark: #8c7d45;
+      --gt-navy: #003057;
+      --gt-navy-mid: #004080;
+      --dark: #0D1117;
+      --cream: #f7f4ec;
+      --cream-2: #efe9db;
+      --text: #1f2328;
+      --muted: #5b6470;
+      --card: #ffffff;
+      --border: #ddd4bf;
+      --shadow: 0 14px 40px rgba(0,0,0,0.08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--cream); line-height: 1.7; overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(13,17,23,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(179,163,105,0.25);
+    }
+    .nav-inner {
+      max-width: 1150px; margin: 0 auto;
+      padding: 0 1.4rem; height: 58px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand {
+      font-family: 'Playfair Display', serif;
+      color: var(--gt-gold); font-size: 1.15rem; font-weight: 700;
+    }
+    .nav-links { display: flex; gap: 0.25rem; list-style: none; flex-wrap: wrap; }
+    .nav-links a {
+      text-decoration: none; color: rgba(255,255,255,0.75);
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.07em;
+      text-transform: uppercase; padding: 0.4rem 0.8rem; border-radius: 4px; transition: 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gt-gold); background: rgba(179,163,105,0.1); }
+
+    /* ── HERO ─────────────────────────────────────────── */
+    #home {
+      min-height: 100vh; background: var(--dark);
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .hero-grid-bg {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(179,163,105,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(179,163,105,0.045) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .hero-glow {
+      position: absolute; width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,48,87,0.5) 0%, transparent 70%);
+      top: -150px; right: -150px; pointer-events: none;
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 1150px; margin: 0 auto; width: 100%;
+      padding: 7rem 1.4rem 3rem;
+      display: grid; grid-template-columns: 1.3fr 0.7fr;
+      gap: 3rem; align-items: center; flex: 1;
+    }
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      color: var(--gt-gold); font-size: 0.78rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      margin-bottom: 1.1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      animation: fadeUp 0.6s ease 0.1s both;
+    }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--gt-gold); }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.6rem);
+      font-weight: 900; color: #fff; line-height: 1.05; margin-bottom: 1.1rem;
+      animation: fadeUp 0.6s ease 0.25s both;
+    }
+    .hero-name span { color: var(--gt-gold); }
+    .hero-tagline {
+      color: rgba(255,255,255,0.6); font-size: 1.02rem; line-height: 1.72;
+      margin-bottom: 2rem; font-weight: 300; max-width: 540px;
+      animation: fadeUp 0.6s ease 0.4s both;
+    }
+    .hero-buttons {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp 0.6s ease 0.55s both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; text-decoration: none;
+      padding: 0.8rem 1.6rem; border-radius: 4px;
+      font-weight: 600; font-size: 0.9rem; letter-spacing: 0.03em; transition: 0.2s;
+    }
+    .btn-primary { background: var(--gt-gold); color: #111; }
+    .btn-primary:hover { background: var(--gt-gold-light); transform: translateY(-1px); }
+    .btn-secondary { border: 1px solid rgba(179,163,105,0.5); color: var(--gt-gold); }
+    .btn-secondary:hover { border-color: var(--gt-gold); background: rgba(179,163,105,0.08); }
+
+    /* Portrait card */
+    .hero-portrait {
+      animation: fadeUp 0.6s ease 0.35s both;
+    }
+    .portrait-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 20px; padding: 1.1rem;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+    }
+    .portrait-card img {
+      width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 14px;
+    }
+    .portrait-caption {
+      color: rgba(255,255,255,0.7); font-size: 0.88rem;
+      margin-top: 0.85rem; line-height: 1.5;
+    }
+
+    /* Stats bar */
+    .hero-stats {
+      position: relative; z-index: 1;
+      background: var(--dark);
+      border-top: 1px solid rgba(179,163,105,0.15);
+    }
+    .stats-inner {
+      max-width: 1150px; margin: 0 auto;
+      padding: 1.5rem 1.4rem 3rem;
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem;
+    }
+    .stat {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; padding: 1.1rem 1.25rem;
+    }
+    .stat strong { display: block; font-size: 1.6rem; color: var(--gt-gold); font-family: 'Playfair Display', serif; margin-bottom: 0.25rem; }
+    .stat span { color: rgba(255,255,255,0.7); font-size: 0.88rem; }
+
+    /* ── SHARED SECTION STYLES ────────────────────────── */
+    section { scroll-margin-top: 58px; }
+    .section { padding: 4.5rem 1.4rem; }
+    .section.alt { background: var(--cream-2); }
+    .section.dark { background: var(--dark); color: white; }
+    .section-inner { max-width: 1150px; margin: 0 auto; }
+
+    .section-label {
+      color: var(--gt-gold); text-transform: uppercase;
+      letter-spacing: 0.18em; font-size: 0.76rem; font-weight: 600;
+      margin-bottom: 0.6rem; font-family: 'DM Mono', monospace;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 3vw, 2.4rem); line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: 0.35rem; }
+    .section.dark h2, .section.dark h3 { color: #fff; }
+    .lead { font-size: 1rem; color: var(--muted); max-width: 860px; margin-bottom: 1.8rem; }
+    .section.dark .lead, .section.dark p, .section.dark li { color: rgba(255,255,255,0.82); }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.4rem; box-shadow: var(--shadow);
+    }
+    .section.dark .card {
+      background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); box-shadow: none;
+    }
+
+    .two-col { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 1.5rem; }
+    .meta { color: var(--muted); font-size: 0.9rem; font-weight: 600; margin-bottom: 0.7rem; }
+    .section.dark .meta { color: rgba(255,255,255,0.65); }
+
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .tag {
+      border-radius: 999px; padding: 0.35rem 0.8rem;
+      font-size: 0.82rem; font-weight: 600;
+      background: #f4efe2; border: 1px solid var(--border); color: #5b4b1e;
+    }
+    .section.dark .tag {
+      background: rgba(179,163,105,0.1); border-color: rgba(179,163,105,0.35); color: #f3e8bf;
+    }
+
+    ul.clean { padding-left: 1.1rem; }
+    ul.clean li { margin-bottom: 0.45rem; font-size: 0.95rem; }
+
+    .quote {
+      font-size: 0.98rem; font-weight: 600; color: var(--gt-navy);
+      margin-top: 1.2rem; padding-left: 1rem; border-left: 4px solid var(--gt-gold);
+      line-height: 1.6;
+    }
+    .section.dark .quote { color: #f2e7be; }
+
+    /* Timeline */
+    .timeline { display: grid; gap: 0.85rem; margin-top: 1.4rem; }
+    .timeline-item {
+      padding: 0.9rem 1rem 0.9rem 1.1rem;
+      border-left: 4px solid var(--gt-gold);
+      background: rgba(179,163,105,0.07);
+      border-radius: 0 10px 10px 0;
+      font-size: 0.92rem;
+    }
+    .timeline-item strong { display: block; margin-bottom: 0.25rem; font-size: 0.95rem; }
+
+    /* Resume grid */
+    .resume-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem; margin-top: 1.8rem; }
+
+    /* Projects */
+    .project-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem; margin-top: 1.8rem; }
+    .project-card { display: flex; flex-direction: column; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--border); background: var(--card); box-shadow: var(--shadow); }
+    .project-card img { width: 100%; height: 220px; object-fit: cover; }
+    .project-body { padding: 1.25rem; flex: 1; }
+    .project-badge {
+      display: inline-block; font-size: 0.74rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gt-navy); background: rgba(179,163,105,0.18);
+      border: 1px solid rgba(179,163,105,0.4);
+      padding: 0.3rem 0.6rem; border-radius: 999px; margin-bottom: 0.75rem;
+    }
+    .discovery { grid-column: 1 / -1; }
+    .section.dark .project-card { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
+    .section.dark .project-badge { color: var(--gt-gold-light); background: rgba(179,163,105,0.12); }
+
+    /* Gallery */
+    .gallery-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; margin-top: 1.8rem; }
+    .gallery-item { overflow: hidden; border-radius: 14px; border: 1px solid var(--border); background: white; box-shadow: var(--shadow); }
+    .gallery-item img { width: 100%; height: 240px; object-fit: cover; }
+    .gallery-caption { padding: 0.7rem 0.85rem 0.9rem; font-size: 0.85rem; color: var(--muted); }
+
+    /* Contact */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.8rem; align-items: start; }
+    .contact-links { display: grid; gap: 0.85rem; }
+    .contact-link {
+      display: block; text-decoration: none; padding: 1rem 1.1rem;
+      border-radius: 12px; background: white; border: 1px solid var(--border);
+      box-shadow: var(--shadow); transition: 0.2s;
+    }
+    .contact-link:hover { border-color: var(--gt-gold); transform: translateX(3px); }
+    .contact-link strong { display: block; margin-bottom: 0.15rem; color: var(--gt-navy); font-size: 0.88rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .contact-link span { font-size: 0.93rem; color: var(--text); }
+    form { display: grid; gap: 0.85rem; }
+    label { font-weight: 600; font-size: 0.88rem; display: grid; gap: 0.3rem; }
+    input, textarea {
+      width: 100%; padding: 0.8rem 0.9rem; border-radius: 10px;
+      border: 1px solid #cbbf9e; font: inherit; background: white; color: var(--text);
+    }
+    input:focus, textarea:focus { outline: none; border-color: var(--gt-gold); }
+    textarea { min-height: 130px; resize: vertical; }
+    .helper { color: var(--muted); font-size: 0.84rem; margin-top: 0.4rem; }
+
+    /* Footer */
+    footer {
+      background: #0f141a; color: rgba(255,255,255,0.75);
+      padding: 1.75rem 1.4rem; border-top: 1px solid rgba(179,163,105,0.2);
+    }
+    .footer-inner {
+      max-width: 1150px; margin: 0 auto;
+      display: flex; gap: 1rem; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; font-size: 0.88rem;
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .hero-inner, .two-col, .contact-grid { grid-template-columns: 1fr; }
+      .stats-inner, .resume-grid, .project-grid, .gallery-grid { grid-template-columns: repeat(2,1fr); }
+      .hero-portrait { max-width: 340px; margin: 0 auto; }
+    }
+    @media (max-width: 640px) {
+      .stats-inner, .resume-grid, .project-grid, .gallery-grid, .contact-grid { grid-template-columns: 1fr; }
+      .hero-inner { padding-top: 5rem; }
+      .section { padding: 3.5rem 1rem; }
+      .nav-links a { font-size: 0.72rem; padding: 0.35rem 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="brand">Xizhi Tang</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#goals">Goals</a></li>
+      <li><a href="#resume">Resume</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">ECE @ Georgia Tech · Class of 2029</div>
+      <h1 class="hero-name">Hi, I'm<br><span>Xizhi Tang</span></h1>
+      <p class="hero-tagline">
+        Electrical engineering student passionate about chip design, hardware bring-up, and building things that actually work. From PCB layout to digital logic — I'm here to learn fast and ship clean.
+      </p>
+      <div class="hero-buttons">
+        <a class="btn btn-primary" href="#projects">View My Work</a>
+        <a class="btn btn-secondary" href="Tang_Resume_1100.pdf" download>Download Resume</a>
+      </div>
+    </div>
+    <div class="hero-portrait">
+      <div class="portrait-card">
+        <img src="Headshot.JPG" alt="Xizhi Tang standing by a city skyline at night">
+        <div class="portrait-caption">First-year ECE student at Georgia Tech, originally from California.</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stats-inner">
+      <div class="stat"><strong>3.81</strong><span>Georgia Tech GPA</span></div>
+      <div class="stat"><strong>2029</strong><span>Expected graduation</span></div>
+      <div class="stat"><strong>2</strong><span>Research internships before college</span></div>
+      <div class="stat"><strong>3+</strong><span>Hands-on technical teams</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="section-inner">
+    <div class="section-label">About Me</div>
+    <h2>Who I am and what this website is for</h2>
+    <p class="lead">This ePortfolio is a professional overview of my background, interests, technical work, and future plans — designed so that a recruiter, classmate, or mentor can quickly understand my direction as an ECE student.</p>
+
+    <div class="two-col">
+      <div class="card">
+        <h3>My background</h3>
+        <p>My name is <strong>Xizhi Tang</strong>, and I am a first-year ECE student at Georgia Tech. I grew up in California and also spent time in China, which shaped how I approach engineering: I like understanding systems deeply, learning from different perspectives, and building practical solutions that are reliable.</p>
+        <p style="margin-top:0.85rem;">I chose ECE because I enjoy working close to the physical world — measuring real signals, debugging real boards, and watching a design go from idea to hardware. Outside the classroom, I enjoy photography, travel, and paying attention to technical details in everyday life.</p>
+        <div class="quote">Engineering starts with paying attention.</div>
+      </div>
+      <div class="card">
+        <h3>Areas that interest me most</h3>
+        <p>The technical areas that excite me right now are digital systems, hardware verification, embedded systems, PCB design, and future work in FPGA or ASIC-related design. I enjoy the discipline required for hardware work — a hardware system has to be correct, readable, and testable.</p>
+        <div class="tag-list">
+          <span class="tag">Digital Logic</span>
+          <span class="tag">PCB Design</span>
+          <span class="tag">Embedded Systems</span>
+          <span class="tag">Hardware Bring-Up</span>
+          <span class="tag">Signal Processing</span>
+          <span class="tag">SystemVerilog</span>
+          <span class="tag">Chip Design</span>
+          <span class="tag">Verification</span>
+        </div>
+        <h3 style="margin-top:1.4rem;">What makes me stand out</h3>
+        <ul class="clean">
+          <li>Research experience in both neuroscience and materials science before college.</li>
+          <li>Comfortable with hands-on lab work: debugging, validation, instrumentation.</li>
+          <li>Quick to learn new tools and clear in documentation.</li>
+          <li>Active in hardware-focused student teams (YJSP, RoboJackets).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GOALS -->
+<section class="section alt" id="goals">
+  <div class="section-inner">
+    <div class="section-label">Career Goals</div>
+    <h2>My short-term and long-term plan</h2>
+    <p class="lead">My long-term goal is to become a hardware engineer working in chip design, digital systems, or related low-level hardware development — roles where performance, correctness, and reliability matter.</p>
+
+    <div class="two-col">
+      <div class="card">
+        <h3>Timeline</h3>
+        <div class="timeline">
+          <div class="timeline-item">
+            <strong>2025–2026 — Build the foundation</strong>
+            Complete core ECE courses, strengthen digital logic and circuit analysis, and build experience through YJSP and RoboJackets.
+          </div>
+          <div class="timeline-item">
+            <strong>2026–2028 — Gain industry experience</strong>
+            Pursue internships in hardware engineering, FPGA, or embedded systems while advancing into VLSI and computer architecture coursework.
+          </div>
+          <div class="timeline-item">
+            <strong>2028–2029 — Prepare for full-time roles</strong>
+            Finish my portfolio with larger design projects and graduate ready for hardware engineering or chip-related positions.
+          </div>
+          <div class="timeline-item">
+            <strong>After graduation</strong>
+            Grow into an engineer who contributes across design, validation, and debugging — and eventually works on complex hardware systems with real product impact.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Steps I need to take</h3>
+        <ul class="clean">
+          <li><strong>Take the right coursework.</strong> Build depth in digital systems, electronics, computer architecture, and advanced topics like VLSI and FPGA design.</li>
+          <li><strong>Keep building technical projects.</strong> Projects turn class knowledge into practical engineering, especially when they involve documentation, testing, and iteration.</li>
+          <li><strong>Pursue internships and research.</strong> Real engineering environments teach how teams work, how designs are reviewed, and how professional hardware development is done.</li>
+          <li><strong>Improve my tool skills.</strong> Become more confident with HDLs, EDA tools, test equipment, and industry design workflows.</li>
+          <li><strong>Develop as a communicator.</strong> Good engineers explain their work clearly — I want to keep improving presentations, documentation, and design review communication.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESUME -->
+<section class="section" id="resume">
+  <div class="section-inner">
+    <div class="section-label">Resume and Experience</div>
+    <h2>Education, skills, and experience</h2>
+    <p class="lead">A concise summary of my background. Each experience contributed to my growth in a different way — some built technical skills, others taught me teamwork and problem-solving in real environments.</p>
+
+    <p style="margin-bottom:1.8rem;">
+      <a class="btn btn-primary" href="Tang_Resume_1100.pdf" download>Download My Resume (PDF)</a>
+    </p>
+
+    <div class="resume-grid">
+      <div class="card">
+        <h3>Education</h3>
+        <div class="meta">Georgia Institute of Technology · Atlanta, GA · Aug 2025 – May 2029</div>
+        <p>B.S. Electrical Engineering, GPA 3.81. Relevant coursework: Circuit Analysis, Digital System Design, Introduction to Signal Processing. These classes gave me a solid start in nodal/loop analysis, Boolean logic, state machines, frequency-domain thinking, and discrete-time systems.</p>
+      </div>
+
+      <div class="card">
+        <h3>Skills</h3>
+        <ul class="clean">
+          <li><strong>Programming:</strong> Python, MATLAB, SystemVerilog</li>
+          <li><strong>Hardware:</strong> STM32, ADC/SPI/I2C/UART, oscilloscope, logic analyzer, bench PSU, DMM</li>
+          <li><strong>Software:</strong> Altium Designer, KiCad, Quartus, ModelSim, Git/GitHub, VS Code</li>
+          <li><strong>Languages:</strong> English (fluent), Chinese (native)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Research experience</h3>
+        <div class="meta">UCLA NeuroLife Lab · Los Angeles, CA · Summer 2024</div>
+        <p>Assisted with experiment preparation and data entry for mouse traumatic brain injury studies under Dr. Fernando. Developed habits of precision and careful observation that carry directly into engineering work.</p>
+        <div class="meta" style="margin-top:1rem;">Department of Materials Science, Fudan University · Shanghai, China · Summer 2024</div>
+        <p>Supported development of a solar-evaporation wastewater purification material. Helped with material prep, coating, mixing, and photothermal performance testing alongside graduate students.</p>
+      </div>
+
+      <div class="card">
+        <h3>Activities and organizations</h3>
+        <div class="meta">Yellow Jacket Space Program · Avionics · Nov 2025 – Present</div>
+        <p>PCB design and hardware validation for avionics hardware. This team places engineering in a real mission context where other people depend on your work.</p>
+        <div class="meta" style="margin-top:1rem;">RoboJackets RoboCup · Electrical Hardware Engineer · Aug 2025 – Present</div>
+        <p>Electrical and embedded hardware development for a robotic soccer platform. Reinforces how important iteration, testing, and cross-team communication are when multiple subsystems come together.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section dark" id="projects">
+  <div class="section-inner">
+    <div class="section-label">Technical Work</div>
+    <h2>Projects, coursework, and hands-on development</h2>
+    <p class="lead">Projects show how I apply what I learn. Each one below reflects how I think through a problem, which tools I use, and why the experience matters for my future as an engineer.</p>
+
+    <div class="project-grid">
+      <article class="card project-card">
+        <img src="Project.png" alt="PCB layout designed for a student engineering project">
+        <div class="project-body">
+          <span class="project-badge">Yellow Jacket Space Program</span>
+          <h3>Rapid Test Board (RTB)</h3>
+          <p>Designed and updated schematics and PCB layout for a board supporting regulated power (24V→5V/3.3V) and MCU/ADC-based sensing for YJSP Avionics. Through this project, I practiced real design review cycles and learned that documentation is part of engineering: if a teammate cannot test your work correctly, the design is not complete.</p>
+        </div>
+      </article>
+
+      <article class="card project-card">
+        <img src="Lab.jpg" alt="ECE lab setup with circuit measurement equipment">
+        <div class="project-body">
+          <span class="project-badge">ECE Coursework</span>
+          <h3>Circuits and lab-based learning</h3>
+          <p>Lab work in circuit analysis connected theory to physical measurements — voltage, current, resistance, and instrumentation all became more concrete. Accurate setup and careful reasoning are habits that carry into every higher-level engineering task, and these labs built that foundation.</p>
+        </div>
+      </article>
+
+      <article class="card project-card discovery">
+        <div class="project-body">
+          <span class="project-badge">Discovery Project Feature</span>
+          <h3>Discovery Project</h3>
+          <p>This section is intentionally in progress. The Discovery Project feature will be fully expanded for the Discovery Project Showcase — not required to be complete at this submission stage.</p>
+          <p style="margin-top:0.75rem;">The final version will include a written explanation of the project, supporting visuals, results, and reflection on what I learned. I plan to use this space to show how I can present a technical topic clearly and connect it to my broader interests in hardware engineering.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section alt" id="gallery">
+  <div class="section-inner">
+    <div class="section-label">Visuals</div>
+    <h2>Photo and project gallery</h2>
+    <p class="lead">These images represent different sides of who I am — technical work, campus life, and personal interests — selected to support the story of this website.</p>
+
+    <div class="gallery-grid">
+      <figure class="gallery-item">
+        <img src="Headshot.JPG" alt="Portrait of Xizhi Tang by a city skyline at night">
+        <figcaption class="gallery-caption">Professional portrait used to introduce who I am.</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <img src="Project.png" alt="PCB layout with components and traces">
+        <figcaption class="gallery-caption">PCB design work in YJSP Avionics.</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <img src="Lab.jpg" alt="Students measuring a circuit in an engineering lab">
+        <figcaption class="gallery-caption">Hands-on circuit measurement in the ECE lab.</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <img src="Campus.JPG" alt="Yellow flowers blooming in front of a brick campus building">
+        <figcaption class="gallery-caption">Campus life at Georgia Tech.</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <img src="Personal.jpg" alt="Airplane flying against a clear blue sky">
+        <figcaption class="gallery-caption">A personal photo reflecting my interest in travel and photography.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="section-inner">
+    <div class="section-label">Contact</div>
+    <h2>How to reach me</h2>
+    <p class="lead">Happy to connect about internships, student projects, research, or general engineering conversation.</p>
+
+    <div class="contact-grid">
+      <div class="contact-links">
+        <a class="contact-link" href="mailto:xtang330@gatech.edu">
+          <strong>Email</strong>
+          <span>xtang330@gatech.edu</span>
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/thomas-xz-tang" target="_blank" rel="noopener noreferrer">
+          <strong>LinkedIn</strong>
+          <span>linkedin.com/in/thomas-xz-tang</span>
+        </a>
+        <a class="contact-link" href="https://github.com/thomastdroid" target="_blank" rel="noopener noreferrer">
+          <strong>GitHub</strong>
+          <span>github.com/thomastdroid</span>
+        </a>
+        <a class="contact-link" href="https://instagram.com/thomastangxz" target="_blank" rel="noopener noreferrer">
+          <strong>Instagram</strong>
+          <span>@thomastangxz</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <form id="contactForm">
+          <label>Name<input type="text" id="name" placeholder="Your name" required></label>
+          <label>Email<input type="email" id="email" placeholder="your@email.com" required></label>
+          <label>Message<textarea id="message" placeholder="Write your message here" required></textarea></label>
+          <button class="btn btn-primary" type="submit" style="justify-self:start;">Open Email Draft</button>
+        </form>
+        <p class="helper">This form opens your email app with a pre-filled draft — no server needed for a GitHub Pages site.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div><strong style="color:var(--gt-gold);font-family:'Playfair Display',serif;">Xizhi Tang</strong></div>
+    <div>ECE @ Georgia Tech · thomastdroid.github.io</div>
+    <div>Built for ECE 1100 and future professional growth</div>
+  </div>
+</footer>
+
+<script>
+  // Active nav on scroll
+  const allSections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  function setActive() {
+    let current = 'home';
+    allSections.forEach(s => {
+      if (window.pageYOffset >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  }
+  window.addEventListener('scroll', setActive);
+  window.addEventListener('load', setActive);
+
+  // Contact form → mailto
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const subject = encodeURIComponent('Portfolio Contact from ' + name);
+    const body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + message);
+    window.location.href = 'mailto:xtang330@gatech.edu?subject=' + subject + '&body=' + body;
+  });
+</script>
+</body>
+</html>
