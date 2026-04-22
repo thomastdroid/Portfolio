@@ -500,12 +500,82 @@
         </div>
       </article>
 
-      <article class="card project-card discovery">
-        <div class="project-body">
+      <article class="card project-card discovery" style="background:#fff;">
+        <img src="IMG_7807.JPG" alt="Breadboard circuit with a glowing LED powered by a 9V battery" style="width:100%;height:280px;object-fit:cover;object-position:center;">
+        <div class="project-body" style="padding:2rem;">
           <span class="project-badge">Discovery Project Feature</span>
-          <h3>Discovery Project</h3>
-          <p>This section is still in progress. The Discovery Project does not need to be finished at this submission stage, so I will complete and expand it before the Discovery Project Showcase.</p>
-          <p style="margin-top:0.75rem;">The final version will include a written description of the project, photos or visuals, results, and what I learned. I want to use this space to explain a technical topic clearly and connect it to my interest in hardware engineering.</p>
+          <h3 style="font-size:1.4rem;margin-bottom:1.25rem;">Automatic Night Light (Photoresistor + Transistor)</h3>
+
+          <!-- IDEA -->
+          <h4 style="font-family:'DM Mono',monospace;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--gt-gold-dark);margin-bottom:0.5rem;">The Idea</h4>
+          <p style="margin-bottom:1.2rem;">I wanted to build a small circuit that turns an LED on automatically when it gets dark and turns it off when there is enough light. This is how automatic night lights work in real life. I thought it was a good project because it uses real analog components and requires me to think about voltage levels and transistor behavior, not just plug things into code.</p>
+          <p style="margin-bottom:1.5rem;">The core idea was to use a photoresistor and a resistor together as a voltage divider. When it is dark, the resistance of the photoresistor goes up, which raises the voltage at the base of an NPN transistor enough to turn it on, and that turns on the LED. When there is light, the voltage at the base drops below the threshold and the LED turns off.</p>
+
+          <!-- PARTS -->
+          <h4 style="font-family:'DM Mono',monospace;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--gt-gold-dark);margin-bottom:0.5rem;">Parts I Used</h4>
+          <ul class="clean" style="margin-bottom:1.5rem;">
+            <li>Breadboard and jumper wires</li>
+            <li>Photoresistor (LDR)</li>
+            <li>1 LED (yellow)</li>
+            <li>220 ohm resistor for the LED, 10k ohm resistor for the voltage divider</li>
+            <li>NPN transistor (2N3904)</li>
+            <li>9V battery (PKCELL)</li>
+          </ul>
+
+          <!-- PROGRESS -->
+          <h4 style="font-family:'DM Mono',monospace;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--gt-gold-dark);margin-bottom:0.5rem;">Progress Through the Semester</h4>
+          <p style="margin-bottom:0.75rem;">In the first week I read about voltage dividers and watched a short tutorial on how a transistor works as a switch. I drew a rough schematic by hand and calculated what resistor values I needed to get the base voltage above 0.7V when the photoresistor is in the dark.</p>
+          <p style="margin-bottom:0.75rem;">In week two I went to the ECE Instructional Labs to borrow the components. I built the circuit on a breadboard step by step, starting with just the voltage divider and measuring the output with a multimeter before connecting the transistor.</p>
+          <p style="margin-bottom:1.5rem;">In week three I tested it in different conditions: covering the photoresistor with my hand, pointing a flashlight at it, and testing under normal room light. I measured the base voltage in each case and confirmed the transistor switching behavior.</p>
+
+          <!-- SUCCESSES AND FAILURES -->
+          <h4 style="font-family:'DM Mono',monospace;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--gt-gold-dark);margin-bottom:0.5rem;">What Worked and What Did Not</h4>
+          <p style="margin-bottom:0.75rem;"><strong>What worked:</strong> The basic idea worked on the first try once I wired the transistor correctly. When I covered the LDR the base voltage rose to about 1.1V and the LED turned on clearly. When I shone a flashlight at it the base voltage dropped to around 0.3V and the LED went off. This matched what I expected from the calculation.</p>
+          <p style="margin-bottom:1.5rem;"><strong>What did not work at first:</strong> The first time I built it, the LED did not light up at all. I spent about 20 minutes checking the wiring and found that I had the LED in backwards. After flipping it, it worked. I also found that under room light the circuit was in a gray zone where the LED was dimly on instead of fully off, so I swapped the 10k divider resistor for a smaller value to shift the threshold.</p>
+
+          <!-- SKILLS -->
+          <h4 style="font-family:'DM Mono',monospace;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--gt-gold-dark);margin-bottom:0.5rem;">ECE Skills I Gained</h4>
+          <ul class="clean" style="margin-bottom:1.5rem;">
+            <li><strong>Voltage divider design.</strong> I learned how to calculate the output voltage of a divider and how changing one resistor shifts that voltage up or down.</li>
+            <li><strong>Transistor as a switch.</strong> I now understand what the base threshold voltage means and how to wire a 2N3904 in a common-emitter configuration to switch a load.</li>
+            <li><strong>Using a multimeter.</strong> I measured DC voltage at multiple nodes in the circuit in both light and dark conditions. This made the theory feel concrete.</li>
+            <li><strong>Debugging breadboard circuits.</strong> I got practice finding real mistakes: reversed polarity on an LED, a loose wire, and a resistor value that put the circuit in an undefined state.</li>
+          </ul>
+
+          <!-- FINAL THOUGHTS -->
+          <h4 style="font-family:'DM Mono',monospace;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--gt-gold-dark);margin-bottom:0.5rem;">Final Thoughts</h4>
+          <p style="margin-bottom:0.75rem;">I am glad I chose this project. It was simple enough that I could finish it without getting stuck for a long time, but it still required me to think carefully about the circuit, not just follow instructions blindly. The most useful part was debugging. Reading about circuits in class is different from actually looking at a breadboard and figuring out why the LED is not turning on.</p>
+          <p>This project made me more interested in the analog and circuits thread. Before this I thought I only wanted to do digital work, but I now see that understanding transistors and voltage levels at this basic level is important for almost everything in ECE. If I had more time I would add a potentiometer to make the light threshold adjustable, and maybe replace the LED with a small relay to control something larger.</p>
+
+          <!-- VOLTAGE TABLE -->
+          <h4 style="font-family:'DM Mono',monospace;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--gt-gold-dark);margin:1.5rem 0 0.6rem;">Measured Voltages</h4>
+          <table style="width:100%;border-collapse:collapse;font-size:0.88rem;margin-bottom:0.5rem;">
+            <thead>
+              <tr style="background:var(--cream-2);">
+                <th style="padding:0.55rem 0.8rem;text-align:left;border:1px solid var(--border);">Condition</th>
+                <th style="padding:0.55rem 0.8rem;text-align:left;border:1px solid var(--border);">Base voltage (V)</th>
+                <th style="padding:0.55rem 0.8rem;text-align:left;border:1px solid var(--border);">LED</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:0.55rem 0.8rem;border:1px solid var(--border);">LDR covered (dark)</td>
+                <td style="padding:0.55rem 0.8rem;border:1px solid var(--border);">~1.1 V</td>
+                <td style="padding:0.55rem 0.8rem;border:1px solid var(--border);">ON</td>
+              </tr>
+              <tr style="background:var(--cream-2);">
+                <td style="padding:0.55rem 0.8rem;border:1px solid var(--border);">Normal room light</td>
+                <td style="padding:0.55rem 0.8rem;border:1px solid var(--border);">~0.55 V</td>
+                <td style="padding:0.55rem 0.8rem;border:1px solid var(--border);">OFF (after resistor adjust)</td>
+              </tr>
+              <tr>
+                <td style="padding:0.55rem 0.8rem;border:1px solid var(--border);">Flashlight directly on LDR</td>
+                <td style="padding:0.55rem 0.8rem;border:1px solid var(--border);">~0.3 V</td>
+                <td style="padding:0.55rem 0.8rem;border:1px solid var(--border);">OFF</td>
+              </tr>
+            </tbody>
+          </table>
+
         </div>
       </article>
     </div>
@@ -553,9 +623,9 @@
 
     <div class="contact-grid">
       <div class="contact-links">
-        <a class="contact-link" href="mailto:xtang330@gatech.edu">
+        <a class="contact-link" href="/cdn-cgi/l/email-protection#8cf4f8ede2ebbfbfbcccebedf8e9efe4a2e9e8f9">
           <strong>Email</strong>
-          <span>xtang330@gatech.edu</span>
+          <span><span class="__cf_email__" data-cfemail="5c24283d323b6f6f6c1c3b3d28393f3472393829">[email&#160;protected]</span></span>
         </a>
         <a class="contact-link" href="https://www.linkedin.com/in/thomas-xz-tang" target="_blank" rel="noopener noreferrer">
           <strong>LinkedIn</strong>
